@@ -1,0 +1,105 @@
+# Portfolio — recovered plan
+
+> Reconstructed from the 2026-11-24 planning session (pi session `2026-11-24T01-51-50`)
+> whose context ran out before Round 3 was delivered. This file is the source of
+> truth until the site is built.
+
+## Status
+
+- Repo: `C:/Users/Admin/development/portfolio` → https://github.com/nathan-nazareth/portfolio
+- Public, branch `main`, one commit `302b413 chore: initialize portfolio site repository`
+- Files: `README.md`, `.gitignore`, `.gitattributes`, `.editorconfig`
+- **No site code exists yet.** No package.json, no framework, no content, no deploy.
+
+## Decisions locked (grilling rounds 1 + 2)
+
+### Identity & framing
+| Decision | Answer |
+|---|---|
+| Display name | **Nathan Nazareth** |
+| Relationship to Acutis Flow | **Fully standalone** — no cross-linking to Gerson's brand |
+| Audience | Job/credibility + peers, but honestly framed as a 14-year-old building for the future |
+| Age on site | **Stated plainly, early**, framed as momentum — volunteered, not hidden |
+| Site shape | **Project index with case studies** (not a résumé CV, not a blog) |
+| Centerpiece project | **westmarch** — the headline case study |
+| Stack / hosting | **Next.js → Vercel** (overrode the earlier Astro + GitHub Pages recommendation) |
+
+### Repo visibility plan
+| Repo | Action |
+|---|---|
+| `westmarch` | Publish after cleanup — **the centerpiece** |
+| `super-gemini-bros` | Strip all AI Studio branding, rename, then publish |
+| `lord-of-the-rinse-old` | Rename **and publish** — it's a **soap** business app (orders, revenue, UPI, admin API), not detergent |
+| `star-wars` | **Keep private** — Disney legal exposure |
+| `ch991` | **Keep private** — mostly Gerson's work |
+| `war` | Keep private — intermediate state of star-wars |
+| `gm`, `Chat` | **Not Nathan's** — Gerson's. Excluded from the portfolio. |
+| `agent-watchdog` | Public but has only a `.gitignore`. Either publish the code or make private. |
+| `a`, `notelik187`, `clone`, `ch992`, `custom-slides` | Empty — delete |
+| `PianoMaestro-AI`, `Antique-Date-Finder`, `maestro-match`, `Doodle`, `super-gemini-bros`, `lord-of-the-rinse-old` | Description is `zfdhfdhzfh` — fix all |
+
+### The books requirement (explicit)
+> "I need it to be there, not deleted, yet not in github."
+
+Resolution: `git filter-repo --invert-paths --path .tmp-books/ --path Python/` to strip
+books + Python junk from history, **keep the 71 MB of books on disk** outside git tracking,
+and `.gitignore` them going forward.
+
+### GitHub profile (agreed, not yet done)
+Bio + location + website link → portfolio URL; profile README repo
+`nathan-nazareth/nathan-nazareth`; pin the three showcase repos.
+
+## Findings that block "publish westmarch"
+
+Verified 2026-11-24 against `origin/main` (not just the working tree):
+
+1. **`.tmp-books/` — 71 MB, 298 files, already on GitHub's servers.**
+   `02 - The Two Towers.txt` (154,297 words), `03 - The Return Of The King.txt`,
+   `lotr-full.epub` + `lotr.zip` (6.73 MB each, with published-edition artwork).
+   Introduced by commit `97198403` ("worktree auto-commit before merge"), which
+   `git merge-base --is-ancestor` confirms is an ancestor of `origin/main`.
+   Repo is 576 MB on GitHub; local `.git` is 908 MB.
+
+2. **`Python/` — 2,336 tracked files** (accidental CPython drop + a 35.5 MB
+   `pythoncore-3.15-64-3.15.2.zip`), 165 MB on disk, also on `origin/main`.
+
+3. **The live site serves verbatim book text.**
+   `https://westmarch.n8-nazareth.workers.dev/api/guide/dictionary` returns 103 entries /
+   140,575 words. N-gram matching against the local book corpus puts **~24,009 words
+   (~17%) as verbatim passages** from the books; 55 of 103 entries contain a verbatim
+   16-word run. This is live now, before anything is published.
+
+4. **192 character portraits** of unverified provenance in `public/images/`
+   (267 image files total). `scripts/audit-portraits.mjs` exists to check these.
+
+5. **Plaintext credential still on disk** — revoked but not scrubbed:
+   - `development/ch991/.git/config` → remote URL contains
+     `https://***REDACTED-GITHUB-TOKEN***:x-oauth-basic@github.com/...`
+     (token verified revoked — every API call returns `401 Bad credentials`)
+   - `development/star-wars/.crush/crush.db` — 4 occurrences of the same token
+
+6. **`C:/Users/Admin` is itself a git working tree** with remote `9erson/bitey` and
+   4,924 untracked files. `development/middle-earth-duels` and `development/vader-tts`
+   are plain directories inside it, not repos. A stray `git add -A` from home would try
+   to commit `AppData`.
+
+## Environment notes
+- `gh` authenticated as `nathan-nazareth`, scopes `gist, read:org, repo`
+- Vercel usernames free: `nathan-nazareth.vercel.app`, `nnazareth.vercel.app`,
+  `portfolio-nathan-nazareth.vercel.app` (all 404 today)
+- Live sites: `westmarch.vercel.app` (308 → `westmarch.n8-nazareth.workers.dev`),
+  `super-gemini-bros.vercel.app` (still serves `@google/genai` — AI Studio branding live),
+  `middle-earth-merriment.vercel.app` (200, but Gerson's)
+- `middle-earth-duels` on GitHub is a **redirect alias of `westmarch`** — not a separate repo
+- Authorship by commit email: `nathan-nazareth@users.noreply.github.com` +
+  `agent@westmarch` → Nathan (westmarch, star-wars, war, git-ai-2, class-schedule).
+  `n8.nazareth@gmail.com` → Gerson (ch991, Chat, chess, eventreminder, cloud,
+  religion-duel, middle-earth-merriment, and — note — **Super-Gemini-Bros** and
+  **lord-of-the-rinse-old**).
+
+## Not yet decided (Round 3 never ran)
+- Confirmed list of repos to feature + the copy for each case study
+- Page/section structure of the site
+- Contact method (email vs GitHub issues vs form)
+- Visual direction
+- Whether a custom domain is wanted (no payment method at 14 → free subdomain for now)
