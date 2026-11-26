@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "node scripts/build-site.ts",
+    "deploy": "npm run build && wrangler deploy",
     "typecheck": "tsc --noEmit",
     "lint:boundaries": "depcruise src/packages",
     "test": "vitest run",
@@ -11,6 +13,7 @@
   "devDependencies": {
     "dependency-cruiser": "^18.9.0",
     "typescript": "^5.9.3",
-    "vitest": "^5.1.2"
+    "vitest": "^5.1.2",
+    "wrangler": "^4.168.0"
   }
 }

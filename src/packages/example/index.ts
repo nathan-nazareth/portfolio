@@ -4,7 +4,7 @@
  * This is the only thing outside the package may import. The behaviour lives
  * in `lib/`, which is hidden from callers.
  */
-import { titleCase } from "./lib/impl";
+import { titleCase } from "./lib/impl.ts";
 
 /**
  * Normalise a project title for display.
