@@ -73,7 +73,7 @@ export const renderIndex = (): string => {
     (p, i) => `<li>
 <div class="num">${String(i + 1).padStart(2, "0")}</div>
 <div class="project-title">
-  <h3><a href="/projects/${p.slug}.html">${escape(p.name)}</a></h3>
+  <h3><a href="/projects/${p.slug}">${escape(p.name)}</a></h3>
   <span class="status">${STATUS_LABEL[p.status]}</span>
 </div>
 <p class="tagline">${escape(p.tagline)}</p>
